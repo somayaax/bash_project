@@ -6,7 +6,6 @@ PS3="$tableName>>"
 
 if [ -f $tableName -a $tableName ]
 then
-	columns=`cut -d: -f1 $tableName.metadata`
 
 	select choice in "delete all without condition" "delete a specific row " 
 	do
