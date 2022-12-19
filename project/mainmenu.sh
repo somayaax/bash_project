@@ -16,7 +16,7 @@ case $REPLY in
 	echo database created successefuly
 	fi
 ;;
-2) ls ~/project/databases 
+2) ls ./databases 
 ;;
 3) echo enter database name: 
 	read name
