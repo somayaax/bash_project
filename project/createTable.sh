@@ -11,7 +11,7 @@ if [ ! -f $name ]
 	
 	echo "please enter primary key of the table "
 	read primaryKey
-	echo -e "please enter type of the primary key\nint for integer\nstring for string\nchar for character\n"
+	echo -e "please enter type of the primary key\nint for integer\nstring for string\nfloat for float \n"
 	read primaryKeyType
 	pk=$primaryKey:$primaryKeyType
 	echo $pk >> $name.metadata
@@ -23,7 +23,7 @@ if [ ! -f $name ]
 		do
 		echo "please enter field ${j} name"
 		read field
-		echo -e  "please enter field ${j} type \nint for integer\nstring for string\nchar for character\n"
+		echo -e  "please enter field ${j} type \nint for integer\nstring for string\nfloat for float\n"
 		read fieldType
 		entry=$field:$fieldType
 		echo  $entry >> $name.metadata

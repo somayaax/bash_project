@@ -1,21 +1,20 @@
 #!/bin/bash
-function checkDataType {
-echo "PARAM 1"
-echo $1
-echo "PARAM 2"
-echo $2
-if [[ $1 =~ ^[+-]?[0-9]+$ ]] && [[ $2 =~ int$ ]]; then
-echo " integers"
 
-elif [[ $1 =~ ^[+-]?[0-9]+\.$ ]]  && [[ $2 =~ string$ ]]; then
-echo "strings"
+function checkDataType {
+ans=-1
+if [[ $1 =~ ^[+-]?[0-9]+$ ]] && [[ $2 =~ int$ ]]; then
+ans=1
+
+elif [[ $1 =~ ^[a-zA-Z0-9]+$ ]]  && [[ $2 =~ string$ ]]; then
+ans=1
 
 elif [[ $1 =~ ^[+-]?[0-9]+\.?[0-9]*$ ]] && [[ $2 =~ float$ ]]; then
-echo "float"
+ans=1
 
 else
-echo "Different"
+ans=0
 fi
+return $ans
 }
 #loop to show tables to user
 printf "enter table name: "
@@ -29,18 +28,26 @@ do
 	record="-1"
 	for field in `cut -d: -f1,2 ./$table.metadata`
 		do
-
 			printf "enter $field"
 			read newField
 			while [ ! $newField ]
 			do
 	 			echo "no field entered "
-				printf "enter $field"
+				printf "enter $field "
 				read newField
 			done
 	
-			#if this is the first field don't add colon
 			checkDataType $newField $field
+			check=$?
+			while [ $check = 0 ]
+			do
+				echo "data types doesn't match"
+				printf "enter $field "
+				read newField
+				checkDataType $newField $field
+				check=$?
+			done
+			#if this is the first field don't add colon
 			if [ $record = -1 ]
 			then
 				if grep -wq "^$newField" ./$table
@@ -53,7 +60,6 @@ do
 			else
 				record=$record:$newField
 			fi
-		let current=$current+1
 		done
 
 	#add record to file
