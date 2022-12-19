@@ -54,8 +54,42 @@ then
 
 		done 
 	;;
-	3)
-	
+	3)	
+		numOfCols=`cat $tableName.metadata | wc -l `
+		let numOfCols=$numOfCols+1
+		echo "SELECT -FIELDS- FROM $tableName WHERE -PRIMARYKEY- = -value-"
+		echo "enter the fields you want to select :"
+		select choice in "all" $columns
+		do
+		case $REPLY in
+		1) 
+			echo "enter value of pk "
+			read pk
+			head -1 $tableName | column -t -s:
+			grep -w "^$pk" $tableName | column -t -s: 
+		;;
+		[2-$numOfCols])
+ 			echo "choose another column? y/n"
+			read -s -n1 comp
+		x="$REPLY"
+		x=$x,$REPLY
+		arr[$REPLY]=$REPLY
+		for i in ${arr[*]}
+		do
+		x=$x,$i
+		done
+			if [ $comp == n ]
+			then	
+				echo "enter value of pk "
+				read pk
+				head -1 $tableName |cut -d: -f$x | column -t -s:
+				grep -w "^$pk" $tableName | cut -d: -f$x | column -t -s: 
+			fi
+		;;
+		*)echo enter from 1 to $numOfCols
+		;;
+		esac
+		done
 	;;
 	esac
 	done	
