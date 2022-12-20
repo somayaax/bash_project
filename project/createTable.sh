@@ -1,40 +1,54 @@
 #!/bin/bash
 
-echo "please enter table name"
-read name  
-if [ ! -f $name ]
-	then 
-	touch $name
-	touch $name.metadata
-	echo "please enter number of columns"
-	read cols
-	
-	echo "please enter primary key of the table "
-	read primaryKey
-	header=$primaryKey
-	echo -e "please enter type of the primary key\nint for integer\nstring for string\nfloat for float \n"
-	read primaryKeyType
-	pk=$primaryKey:$primaryKeyType
-	echo $pk >> $name.metadata
+read -p "please enter table name :" name
+while [ -f $name ] 
+do
+	echo "table already exist"
+	read -p "please enter table name  :" name
+done
+#create files for table
+touch $name
+touch $name.metadata
+read -p  "please enter number of columns" cols
+read -p  "please enter primary key of the table " primaryKey
+header=$primaryKey
+read -p "please enter type of the primary key [ int-string-float ] " primaryKeyType
+while [ $primaryKeyType != "int" -a $primaryKeyType != "string" -a $primaryKeyType != "float" ]
+do
+echo "Wrong input ! please enter [ int-string-float ] "
+read -p "please enter type of the primary key [ int-string-float ] " primaryKeyType
+done
 
-	let cols=$cols-1
-	i=0
-	j=2
-	while [ $i -lt $cols ]
+pk=$primaryKey:$primaryKeyType
+echo $pk >> $name.metadata
+
+let cols=$cols-1
+i=0
+j=2
+while [ $i -lt $cols ]
+	do
+	read -p  "please enter field ${j} name" field
+	columnExists=`cut -d: -f1 $name.metadata | grep -w $field`
+	while [ $columnExists ]
+	do
+		echo "column already exist in table $name"
+		read -p  "please enter field ${j} name :" field
+		columnExists=`cut -d: -f1 $name.metadata | grep -w $field`
+	done
+	
+	read -p "please enter field ${j} type [ int-string-float ] " fieldType
+	while [ $fieldType != "int" -a $fieldType != "string" -a $fieldType != "float" ]
 		do
-		echo "please enter field ${j} name"
-		read field
-		echo -e  "please enter field ${j} type \nint for integer\nstring for string\nfloat for float\n"
-		read fieldType
-		header=$header:$field
-		entry=$field:$fieldType
-		echo  $entry >> $name.metadata
-		let i=$i+1
-		let j=$j+1
+		echo "Wrong input ! please enter [ int-string-float ] "
+		read -p "please enter field ${j} type [ int-string-float ] " fieldType
 		done
+	header=$header:$field
+	entry=$field:$fieldType
+	echo  $entry >> $name.metadata
+	let i=$i+1
+	let j=$j+1
+	done
 echo $header >> $name
-else
-echo "table already exist"
-fi
+
 
 
