@@ -1,52 +1,40 @@
 
 #!/bin/bash
-function create_Database {
-	read -p "Please enter database name: " name
+function create {
+read -p "Please enter database name: " name
+while [[ $name = *" "* ]] || [ ! $name ] || [ -d ./databases/$name -a $name ]  || [[ ! $name =~ ^[a-zA-Z]*$ ]] 
+	do
 	
-nameEmpty=1
-regexProblem=1
-databaseExist=1
-while [ $nameEmpty == "1" ] || [ $regexProblem == "1" ] || [ $databaseExist == "1" ]
-do 
-	while [ ! $name ]
-	do
-	echo "You didn't enter database name"
-	read -p "Please enter database name: " name
-	nameEmpty=1
-	done
-	nameEmpty=0
-	while [[ ! "${name}" =~ ^[a-zA-Z]*$ ]] || [[ $name = ^[\ ]*$ ]];  
-	do
-	echo "Name of database can't contain special characters or spaces"
-	read -p "Please enter database name: " name
-	regexProblem=1
-	done
-	regexProblem=0
-	while [ -d ./databases/$name -a $name ] 
-	do
+	if  [[ $name = *" "* ]]
+	then
+		echo "Name of database can't contain spaces!"
+		read -p "Please enter database name: " name
+	elif [ ! $name ] 
+	then
+		echo "You didn't enter database name"
+		read -p "Please enter database name: " name
+
+	elif [[ ! $name =~ ^[a-zA-Z]*$ ]]
+	then
+		echo "Name of database can't contain special characters or numbers!"
+		read -p "Please enter database name: " name
+
+
+	elif  [ -d ./databases/$name -a $name ] 
+	then
 		echo "Database already exist!"
 		read -p "Please enter database name: " name
-		databaseExist=1
-	done
-	databaseExist=0
-
-
+	fi
 done
 
-
 	mkdir -p ./databases/$name
-	echo database created successefuly
-
-
-
-
+	echo "database created successefuly"
 }
-
 COLUMNS=4
 select x in 'create Database' 'list Databases' 'connect to Database' 'Drop Database'
 do
 case $REPLY in 
-1) create_Database
+1) create
 ;;
 2) 
 	if [ -e ./databases ] 
