@@ -1,10 +1,11 @@
 #!/bin/bash
 cd ./databases/$1
-PS3="$1 >>"
+
+PS3="$1 >> "
 
 echo "Choose from the following"
-COLUMNS=7
-select choice in "Create Table" "List Tables" "Drop Table" "Insert into Table" "Select From Table" "Delete From Table" "Update Table"
+COLUMNS=8
+select choice in "Create Table" "List Tables" "Drop Table" "Insert into Table" "Select From Table" "Delete From Table" "Update Table" "back to main menu"
 do
 case $REPLY in 
 1) ../../createTable.sh
@@ -13,7 +14,7 @@ case $REPLY in
 ;;
 3)echo "please enter table name"
    read table
-   if [ -f $table -a $table ]
+   if [ -f $table ]
    then
    rm $table 
    rm $table.metadata
@@ -29,7 +30,7 @@ case $REPLY in
 ;;
 7) ../../update.sh
 ;;
-*) echo "Please enter from 1-7"
+8) ../../mainmenu.sh
 ;;
 esac
 done
