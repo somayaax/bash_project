@@ -5,21 +5,35 @@ PS3="$1 >> "
 
 echo "Choose from the following"
 COLUMNS=8
-select choice in "Create Table" "List Tables" "Drop Table" "Insert into Table" "Select From Table" "Delete From Table" "Update Table" "back to main menu"
+select choice in "Create Table" "List Tables" "Drop Table" "Insert into Table" "Select From Table" "Delete From Table" "Update Table"
 do
 case $REPLY in 
 1) ../../createTable.sh
 ;;
-2) ls | grep -v .metadata$
+2)
+	tables=`ls | grep -v .metadata$` 
+	if [ $tables ]
+	then
+		echo `ls | grep -v .metadata$ `
+	else
+		echo -e "\nno tables to show\n"
+	fi	
 ;;
-3) read -p "please enter table name" table
-   while [ ! -f $table ] || [ ! $table ]
-   do
-	echo "Table not found" 
-	read -p "please enter table name" table
-   done
+3) read -p "please enter table name: " table
+
+while [ ! -f $table ] || [ ! $table ]
+do
+	if [ ! $table ]
+	then
+	echo -e "\nYou didn't enter a table name\n"
+	else
+	echo -e "\nTable not found\n"
+	fi
+	read -p "Please enter table name: " table
+done
    rm $table 
    rm $table.metadata
+   echo -e "\ntable $table dropped successfully\n"
 ;;
 4) ../../insert.sh $1
 ;;
@@ -29,8 +43,7 @@ case $REPLY in
 ;;
 7) ../../update.sh
 ;;
-8) ../../mainmenu.sh
+*) echo -e "\nenter num from 1-7 only\n"
 ;;
 esac
 done
-

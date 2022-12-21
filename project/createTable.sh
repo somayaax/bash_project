@@ -1,7 +1,7 @@
 #!/bin/bash
 
 read -p "Please enter table name :" name
-while [ -f $name -a $name ] 
+while [ -f $name -a ! $name ] 
 do
 	echo "Table already exist"
 	read -p "Please enter table name  :" name
@@ -15,8 +15,8 @@ header=$primaryKey
 read -p "please enter type of the primary key [ int-string-float ] " primaryKeyType
 while [ $primaryKeyType != "int" -a $primaryKeyType != "string" -a $primaryKeyType != "float" ]
 do
-echo "Wrong input ! please enter [ int-string-float ] "
-read -p "please enter type of the primary key [ int-string-float ] " primaryKeyType
+echo -e "\nWrong input ! please enter [ int-string-float ]\n"
+read -p "please enter type of the primary key: " primaryKeyType
 done
 
 pk=$primaryKey:$primaryKeyType
