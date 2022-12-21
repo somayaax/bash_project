@@ -21,7 +21,7 @@ return $ans
 read -p "Please enter table name: " table
 while [ ! -f $table -a $table ] 
 do
-	echo "Table doesn't exist exist"
+	echo "Table doesn't exist"
 	read -p "Please enter table name: " table
 done
 

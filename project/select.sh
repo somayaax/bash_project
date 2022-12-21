@@ -35,8 +35,7 @@ case $REPLY in
 		echo "Select num from 1 to $numOfCols"
 	else 		
 	completed="y"
-	echo "Select another column? y/n"
-	read -s -n1 completed
+	read -p "Select another column? y/n" completed
 	
 	x="$REPLY"
 	arr[$REPLY]=$REPLY
@@ -47,15 +46,13 @@ case $REPLY in
 	
 	if [ $completed != n -a $completed != y ]
 		then 
-		echo "Enter y/n only"
-		read -s -n1 completed	
+		read -p "Select another column? y/n" completed
 	fi
 	if [ $completed == n ]
 		then
 		cut -d: -f$x $tableName | column -t -s: 
 
-		echo "Return to menu? y/n"
-		read -s -n1 menuReturn
+		read -p "Return to menu? y/n" menuReturn
 		if [ $menuReturn == y ]
 		then			
 			cd ../../
@@ -81,8 +78,7 @@ case $REPLY in
 		grep -w "^$pk" $tableName | column -t -s: 
 	;;
 	[2-$numOfCols])
-		echo "Choose another column? y/n"
-		read -s -n1 comp
+		read -p "Choose another column? y/n" comp
 	x="$REPLY"
 	x=$x,$REPLY
 	arr[$REPLY]=$REPLY
@@ -107,7 +103,7 @@ case $REPLY in
 	cd ../../
 	./secondaryMenu.sh $1
 ;;
-*)echo enter value from 1 to 3
+*)echo enter value from 1 to 4
 ;;
 
 esac
