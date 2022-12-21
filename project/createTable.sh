@@ -1,16 +1,16 @@
 #!/bin/bash
 
-read -p "please enter table name :" name
+read -p "Please enter table name :" name
 while [ -f $name ] 
 do
-	echo "table already exist"
-	read -p "please enter table name  :" name
+	echo "Table already exist"
+	read -p "Please enter table name  :" name
 done
 #create files for table
 touch $name
 touch $name.metadata
-read -p  "please enter number of columns" cols
-read -p  "please enter primary key of the table " primaryKey
+read -p  "Please enter number of columns" cols
+read -p  "Please enter primary key of the table " primaryKey
 header=$primaryKey
 read -p "please enter type of the primary key [ int-string-float ] " primaryKeyType
 while [ $primaryKeyType != "int" -a $primaryKeyType != "string" -a $primaryKeyType != "float" ]
@@ -49,6 +49,7 @@ while [ $i -lt $cols ]
 	let j=$j+1
 	done
 echo $header >> $name
+
 
 
 

@@ -1,6 +1,4 @@
 #!/bin/bash
-
-
 read -p "enter table name : " tableName
 PS3="$tableName>>"
 
@@ -27,3 +25,4 @@ then
 else 
 echo "table doesn't exist"
 fi
+

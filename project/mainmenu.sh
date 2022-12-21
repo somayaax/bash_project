@@ -9,7 +9,6 @@ case $REPLY in
 	read name	
 	if [ -d ./databases/$name ]
 	then 
-
 	echo database already exists
 	else
 	mkdir -p ./databases/$name
@@ -40,3 +39,4 @@ case $REPLY in
 *) echo choose from 1-4
 esac 
 done
+
