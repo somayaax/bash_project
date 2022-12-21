@@ -22,6 +22,7 @@ case $REPLY in
    rm $tableName
    mv temp3 $tableName
 ;;
+*) echo "enter 1 or 2"
 esac 
 done
 

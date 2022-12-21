@@ -25,7 +25,7 @@ case $REPLY in
 	else
 	echo "database doesn't exist"
 	fi
-;;
+;;		
 4) read -p "enter database name: " name
 	if [ -d ./databases/$name -a ./databases/$name ]
 	then

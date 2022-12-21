@@ -6,7 +6,8 @@ do
 	read -p "Please enter table name: " tableName
 done
 
-PS3="$tableName>>"
+PS3="$tableName >>"
+
 numOfCols=`cat $tableName.metadata | wc -l `
 
 columns=`cut -d: -f1 $tableName.metadata`

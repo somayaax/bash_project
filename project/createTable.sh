@@ -11,12 +11,13 @@ touch $name
 touch $name.metadata
 read -p  "Please enter number of columns " cols
 read -p  "Please enter primary key of the table " primaryKey
+
 header=$primaryKey
 read -p "please enter type of the primary key [ int-string-float ] " primaryKeyType
 while [ $primaryKeyType != "int" -a $primaryKeyType != "string" -a $primaryKeyType != "float" ]
 do
-echo "Wrong input ! please enter [ int-string-float ] "
-read -p "please enter type of the primary key [ int-string-float ] " primaryKeyType
+	echo "Wrong input ! please enter [ int-string-float ] "
+	read -p "please enter type of the primary key [ int-string-float ] " primaryKeyType
 done
 
 pk=$primaryKey:$primaryKeyType

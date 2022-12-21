@@ -13,7 +13,7 @@ case $REPLY in
 ;;
 3)echo "please enter table name"
    read table
-   if [ -f $table ]
+   if [ -f $table -a $table ]
    then
    rm $table 
    rm $table.metadata
