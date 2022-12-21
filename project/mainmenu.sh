@@ -1,21 +1,45 @@
+
 #!/bin/bash
 function create_Database {
 	read -p "Please enter database name: " name
-
-	while [ -d ./databases/$name ] || [ ! $name ]
+	
+nameEmpty=1
+regexProblem=1
+databaseExist=1
+while [ $nameEmpty == "1" ] || [ $regexProblem == "1" ] || [ $databaseExist == "1" ]
+do 
+	while [ ! $name ]
 	do
-		if [ ! $name ]
-		then
-			echo -e "\nYou didn't enter a database name\n"
-			
-		else
-			echo -e "\nDatabase already exist!\n"
-		fi
-		read -p "Please enter database name: " name
+	echo "You didn't enter database name"
+	read -p "Please enter database name: " name
+	nameEmpty=1
 	done
+	nameEmpty=0
+	while [[ ! "${name}" =~ ^[a-zA-Z]*$ ]] || [[ $name = ^[\ ]*$ ]];  
+	do
+	echo "Name of database can't contain special characters or spaces"
+	read -p "Please enter database name: " name
+	regexProblem=1
+	done
+	regexProblem=0
+	while [ -d ./databases/$name -a $name ] 
+	do
+		echo "Database already exist!"
+		read -p "Please enter database name: " name
+		databaseExist=1
+	done
+	databaseExist=0
+
+
+done
+
 
 	mkdir -p ./databases/$name
 	echo database created successefuly
+
+
+
+
 }
 
 COLUMNS=4
