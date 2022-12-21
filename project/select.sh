@@ -1,8 +1,8 @@
 echo -e "\nSELECT\n "
 read -p "Please enter table name: " tableName
-while [ -f $tableName -a $tableName ] 
+while [ ! -f $tableName -a $tableName ] 
 do
-	echo "Table already exist"
+	echo "Table doesn't exist"
 	read -p "Please enter table name: " tableName
 done
 
@@ -21,6 +21,9 @@ case $REPLY in
 		then
 		cd ../../
 		./secondaryMenu.sh $1
+		#else
+		#cd ../../
+		#./select.sh $1
 	fi
 ;;				
 2)

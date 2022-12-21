@@ -21,7 +21,7 @@ return $ans
 read -p "Please enter table name: " table
 while [ ! -f $table -a $table ] 
 do
-	echo "Table doesn't exist"
+	echo "Table doesn't exist exist"
 	read -p "Please enter table name: " table
 done
 
@@ -52,8 +52,7 @@ do
 			#check if it's not duplicated
 			if [ $record = -1 ]
 			then
-				zero="0"
-				negative="-"
+	
 				if grep -wq "^$newField" ./$table
 				then
 				echo "value exists"
@@ -61,14 +60,10 @@ do
 				fi
 				if [[ "${newField}" =~ ^[0-] ]]; 
 				then
-				echo "primary key can't begin with zero or negativen"
+				echo -e "\nprimary key can't begin with zero or negative\n"
 				break
 				fi
-				if grep -wq "^$negative" ./$table
-				then
-				echo "primary key can't begin with -"
-				break	
-				fi
+				
 				record=$newField
 			else
 				record=$record:$newField

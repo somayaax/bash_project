@@ -1,9 +1,9 @@
 #!/bin/bash
 	read -p "Please enter table name: " tableName
 PS3="$tableName>>"
-while [ -f $tableName -a $tableName ] 
+while [ ! -f $tableName -a $tableName ] 
 do
-	echo "Table already exist"
+	echo "Table doesn't exist"
 	read -p "Please enter table name: " tableName
 done
 
@@ -22,6 +22,7 @@ case $REPLY in
    rm $tableName
    mv temp3 $tableName
 ;;
+*) echo 'enter 1 or 2 only'
 esac 
 done
 

@@ -1,4 +1,6 @@
 #!/bin/bash
+echo -e "\nUPDATE\n"
+
 function checkDataType {
 ans=-1
 if [[ $1 =~ ^[+-]?[0-9]+$ ]] && [[ $2 =~ int$ ]]; then
@@ -17,21 +19,23 @@ return $ans
 }
 	
 read -p "Please enter table name: " tableName
-while [ -f $tableName -a $tableName ] 
+while [ ! -f $tableName -a $tableName ] 
 do
-	echo "Table already exist"
+	echo -e "\nTable doesn't exist\n"
 	read -p "Please enter table name: " tableName
 done
+PS3="Update from $tableName >> "
 
-	
 	read -p "SET : Column name >>  " column 
 	# check that the entered column is correct 
-	columnExists=`cut -d: -f1 $tableName.metadata | grep -w $column`
+
+	columnExists=`cut -d: -f1 $tableName.metadata | grep -w $column 2> /dev/null`
 	while [ ! $columnExists ]
 	do
-		echo "column doesn't exist in table $tableName"
+		echo -e "\ncolumn doesn't exist in table $tableName\n"
 		read -p "SET : Column name >>   " column 
-		columnExists=`cut -d: -f1 $tableName.metadata | grep -w $column`
+		columnExists=`cut -d: -f1 $tableName.metadata | grep -w $column 2> /dev/null`
+			
 	done
 
 	columnNumber=`grep -n -w $column $tableName.metadata | cut -d: -f1`
@@ -41,25 +45,30 @@ done
 	check=$?
 	while [ $check = 0 ]
 	do
-		echo "data types doesn't match"
+		echo -e "\ndata types doesn't match\n"
 		read -p "SET  : $column value >>  " value
 		checkDataType $value $dataType
 		check=$?
 	done
 
 	read -p "enter condition : Column name >>  " columnCond
-	columnCondExists=`cut -d: -f1 $tableName.metadata | grep -w $columnCond`
+	columnCondExists=`cut -d: -f1 $tableName.metadata | grep -w $columnCond 2> /dev/null`
 
 	while [ ! $columnCondExists ]
 	do
 		echo "column doesn't exist in table $tableName"
 		read -p "enter condition : Column name >>  " columnCond
-		columnCondExists=`cut -d: -f1 $tableName.metadata | grep -w $columnCond`
+		columnCondExists=`cut -d: -f1 $tableName.metadata | grep -w $columnCond 2> /dev/null`
 	done           		
 
 	columnCondNumber=`grep -n -w $columnCond $tableName.metadata | cut -d: -f1`		
 
 	read -p "enter condition : Value  >>  " valueCond
+	while [ ! $valueCond ]	
+	do
+		echo -e "\nCannot set empty value\n"	
+		read -p "enter condition : Value  >>  " valueCond	
+	done
 	
 	#get number of rows to be updated
 	numOfRows=`awk -v COLCOND=$columnCondNumber -v VALCOND=$valueCond -v COL=$columnNumber -v VAL=$value 'BEGIN{OFS=FS=":"}{ if($COLCOND==VALCOND){print $0}}' $tableName | wc -l`
