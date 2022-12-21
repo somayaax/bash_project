@@ -1,12 +1,10 @@
 #!/bin/bash
 cd ./databases/$1
-let slashes=`pwd| tr -cd '/' | wc -c`
-let curDB=${slashes}+1
-PS3="`pwd | cut -d/ -f${curDB}` >> "
+PS3="$1 >>"
 
 echo "Choose from the following"
-COLUMNS=8
-select choice in "Create Table" "List Tables" "Drop Table" "Insert into Table" "Select From Table" "Delete From Table" "Update Table" "back to main menu"
+COLUMNS=7
+select choice in "Create Table" "List Tables" "Drop Table" "Insert into Table" "Select From Table" "Delete From Table" "Update Table"
 do
 case $REPLY in 
 1) ../../createTable.sh
@@ -31,7 +29,7 @@ case $REPLY in
 ;;
 7) ../../update.sh
 ;;
-8) ../../mainmenu.sh
+*) echo "Please enter from 1-7"
 ;;
 esac
 done
