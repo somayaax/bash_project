@@ -1,11 +1,32 @@
 #!/bin/bash
+function check {
+read -p "Please enter table name: " name
+while [[ $name = *" "* ]] || [ ! $name ] || [ -f $name ]  || [[ ! $name =~ ^[a-zA-Z]*$ ]] 
+	do
+	
+	if  [[ $name = *" "* ]]
+	then
+		echo "Name of table can't contain spaces!"
+		read -p "Please enter table name: " name
+	elif [ ! $name ] 
+	then
+		echo "You didn't enter table name"
+		read -p "Please enter table name: " name
 
-read -p "Please enter table name :" name
-while [ -f $name -o ! $name ] 
-do
-	echo "Table already exist"
-	read -p "Please enter table name  :" name
+	elif [[ ! $name =~ ^[a-zA-Z]*$ ]]
+	then
+		echo "Name of table can't contain special characters or numbers!"
+		read -p "Please enter table name: " name
+
+
+	elif  [ -f $name ] 
+	then
+		echo "Table already exist!"
+		read -p "Please enter table name: " name
+	fi
 done
+}
+check
 #create files for table
 touch $name
 touch $name.metadata
@@ -69,6 +90,7 @@ while [ $i -lt $cols ]
 	let j=$j+1
 	done
 echo $header >> $name
+
 
 
 
