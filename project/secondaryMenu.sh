@@ -12,15 +12,14 @@ case $REPLY in
 ;;
 2) ls | grep -v .metadata$
 ;;
-3)echo "please enter table name"
-   read table
-   if [ -f $table ]
-   then
+3) read -p "please enter table name" table
+   while [ ! -f $table ] || [ ! $table ]
+   do
+	echo "Table not found" 
+	read -p "please enter table name" table
+   done
    rm $table 
    rm $table.metadata
-   else
-   echo "table doesn't exist"
-   fi
 ;;
 4) ../../insert.sh $1
 ;;
