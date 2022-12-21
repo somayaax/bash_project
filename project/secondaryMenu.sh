@@ -11,10 +11,12 @@ case $REPLY in
 1) ../../createTable.sh
 ;;
 2)
-	tables=`ls | grep -v .metadata$` 
-	if [ $tables ]
+	tables=`ls | grep -v .metadata$ | wc -l` 
+	if [ $tables -gt 0 ]
 	then
+		echo ""
 		echo `ls | grep -v .metadata$ `
+		echo ""		
 	else
 		echo -e "\nno tables to show\n"
 	fi	
