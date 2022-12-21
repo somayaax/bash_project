@@ -15,12 +15,15 @@ ans=0
 fi
 return $ans
 }
-printf "enter table name: "
-read tableName
+	
+read -p "Please enter table name: " tableName
+while [ -f $tableName -a $tableName ] 
+do
+	echo "Table already exist"
+	read -p "Please enter table name: " tableName
+done
 
-
-if [ -f $tableName -a $tableName ]
-then
+	
 	read -p "SET : Column name >>  " column 
 	# check that the entered column is correct 
 	columnExists=`cut -d: -f1 $tableName.metadata | grep -w $column`
@@ -84,10 +87,6 @@ then
 		awk -v COLCOND=$columnCondNumber -v VALCOND=$valueCond -v COL=$columnNumber -v VAL=$value 'BEGIN{OFS=FS=":"}{ if($COLCOND==VALCOND){$COL=VAL};print $0}' $tableName > temp
 		mv temp $tableName
 		echo " $numOfRows rows affected successfully"
-	fi			
-
-else
-echo "table doesn't exist"
-fi		
+	fi				
 
 

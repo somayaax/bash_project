@@ -26,9 +26,8 @@ case $REPLY in
 	echo "database doesn't exist"
 	fi
 ;;
-4) echo enter database name:
-	read name
-	if [ -d ./databases/$name ]
+4) read -p "enter database name: " name
+	if [ -d ./databases/$name -a ./databases/$name ]
 	then
 	rm -r ./databases/$name
 	echo "database dropped successfully"

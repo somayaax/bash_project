@@ -1,5 +1,5 @@
 #!/bin/bash
-
+echo -e "\nINSERT\n "
 function checkDataType {
 ans=-1
 if [[ $1 =~ ^[+-]?[0-9]+$ ]] && [[ $2 =~ int$ ]]; then
@@ -16,10 +16,15 @@ ans=0
 fi
 return $ans
 }
-#loop to show tables to user
+
+
 read -p "Please enter table name: " table
-if [ -f $table ]
-then
+while [ -f $table -a $table ] 
+do
+	echo "Table already exist"
+	read -p "Please enter table name: " table
+done
+
 choose="y"
 while [ $choose = y ]
 do
@@ -27,7 +32,7 @@ do
 	record="-1"
 	for field in `cut -d: -f1,2 ./$table.metadata` # example : field -> id:int
 		do
-			read -p  "Please enter $field" newField
+			read -p  "Please enter $field " newField
 			while [ ! $newField ]
 			do
 	 			echo "No field was entered "
@@ -69,9 +74,4 @@ do
 done
 cd ../../
 ./secondaryMenu.sh $1
-else
-echo"Table doesn't exist"
-fi
-echo "table doesn't exist"
-fi
 
